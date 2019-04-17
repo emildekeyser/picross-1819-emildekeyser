@@ -4,11 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:View.Controls"
+        xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="PiCross" Height="350" Width="525">
+        Title="PiCross" Height="660" Width="660">
+
     <Grid>
-        <controls:PiCrossControl>
-            
+        <controls:PiCrossControl x:Name="picrossControl">
+            <controls:PiCrossControl.SquareTemplate>
+                <DataTemplate>
+                    <Rectangle Width="64" Height="64"  Stroke="Black">
+                        <Rectangle.Fill>
+                            <Binding Path="Contents.Value" >
+                                <Binding.Converter>
+                                    <local:SquareConverter Empty="White" Filled="Black" Unknown="Gray"/>
+                                </Binding.Converter>
+                            </Binding>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </DataTemplate>
+            </controls:PiCrossControl.SquareTemplate>
+            <controls:PiCrossControl.RowConstraintsTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Width="64" Height="64" Text="{Binding Path=Value }" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </controls:PiCrossControl.RowConstraintsTemplate>
         </controls:PiCrossControl>
     </Grid>
 </Window>
