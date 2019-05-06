@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="View.Controls.PuzzleScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:View.Controls"
+             xmlns:view="clr-namespace:View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <view:SquareConverter x:Key="squareconverter" Empty="White" Filled="Black" Unknown="Gray" />
+        <view:SolvedConverter x:Key="solvedconverter" Solved="You won!" Unsolved=""/>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="30" Background="Black" Foreground="White" Grid.Row="0" Text="{Binding IsSolved.Value, Converter={StaticResource solvedconverter}}"/>
+            <local:PiCrossControl x:Name="picrossControl"
+                                Grid.Row="1"
+                                 Grid="{Binding Grid}"
+                                 RowConstraints="{Binding RowConstraints}"
+                                 ColumnConstraints="{Binding ColumnConstraints}"
+                                 FillSquareCommand="{Binding FillSquareCommand}"
+                                 EmptySquareCommand="{Binding EmptySquareCommand}">
+                <local:PiCrossControl.SquareTemplate>
+                    <DataTemplate>
+                          <!--TODO: make this a button and remove clickhandler and *SquareCommand in picrosscontroll-->
+                        <Rectangle Width="64" Height="64"  Stroke="Black" Fill="{Binding Contents.Value, Converter={StaticResource squareconverter}}"/>
+                    </DataTemplate>
+                </local:PiCrossControl.SquareTemplate>
+
+                <local:PiCrossControl.RowConstraintsTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding Values}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="64" Height="64" Text="{Binding Value}">
+                                        <TextBlock.Background>
+                                            <Binding Path="IsSatisfied.Value">
+                                                <Binding.Converter>
+                                                    <local:ConstraintMetConverter Satisfied="Gray" Unsatisfied="White"/>
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </local:PiCrossControl.RowConstraintsTemplate>
+
+                <local:PiCrossControl.ColumnConstraintsTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding Values}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Width="64" Height="64" Text="{Binding Value}">
+                                        <TextBlock.Background>
+                                            <Binding Path="IsSatisfied.Value">
+                                                <Binding.Converter>
+                                                    <local:ConstraintMetConverter Satisfied="Gray" Unsatisfied="White"/>
+                                                </Binding.Converter>
+                                            </Binding>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </local:PiCrossControl.ColumnConstraintsTemplate>
+            </local:PiCrossControl>
+        </Grid>
+    </StackPanel>
+</UserControl>

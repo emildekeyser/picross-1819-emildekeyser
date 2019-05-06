@@ -1,5 +1,4 @@
-﻿using DataStructures;
-using PiCross;
+﻿using PiCross;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,25 +7,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Documents;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewModel;
+using DataStructures;
 
-namespace View
+namespace ViewModel
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public class WelcomeViewModel
     {
-        public MainWindow()
+        public WelcomeViewModel(ICommand startPuzzle)
         {
-            InitializeComponent();
-
+            this.StartPuzzle = startPuzzle;
         }
+        public ICommand StartPuzzle { get; }
     }
 }

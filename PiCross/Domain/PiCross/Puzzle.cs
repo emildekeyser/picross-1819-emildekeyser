@@ -22,6 +22,30 @@ namespace PiCross
     /// </summary>
     public sealed class Puzzle
     {
+        public static Puzzle GenerateRandom(int width, int height)
+        {
+            //Size s = new Size(width, height);
+            //var grid = DataStructures.Grid.Create<Square>(s, Square.EMPTY);
+            //grid = IGridExtensions.Map<Square, Square>(grid, RandomSquare);
+            var rows = new string[height];
+            StringBuilder row;
+            for (int y = 0; y < height; y++)
+            {
+                row = new StringBuilder(width);
+                for (int x = 0; x < width; x++)
+                {
+                    row.Append(RandomSquare().Symbol);
+                }
+                rows[y] = row.ToString();
+                System.Diagnostics.Debug.WriteLine(rows[y]);
+            }
+            return FromRowStrings(rows);
+        }
+
+        private static Square RandomSquare()
+        {
+            return new Random().Next(0, 100) >= 50 ? Square.EMPTY : Square.FILLED;
+        }
         /// <summary>
         /// Creates a Puzzle from the constraints.
         /// Internally, the puzzle is automatically solved.

@@ -1,6 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using DataStructures;
 using UIGrid = System.Windows.Controls.Grid;
 
@@ -12,36 +16,36 @@ namespace View.Controls
         {
             InitializeComponent();
         }
-        
+
         #region Thumbnail
 
         public UIElement Thumbnail
         {
-            get { return (UIElement) GetValue( ThumbnailProperty ); }
-            set { SetValue( ThumbnailProperty, value ); }
+            get { return (UIElement)GetValue(ThumbnailProperty); }
+            set { SetValue(ThumbnailProperty, value); }
         }
 
         public static readonly DependencyProperty ThumbnailProperty =
-            DependencyProperty.Register( "Thumbnail", typeof( UIElement ), typeof( PiCrossControl ), new PropertyMetadata( null, (obj, args) => ((PiCrossControl) obj).OnThumbnailChanged(args) ) );
+            DependencyProperty.Register("Thumbnail", typeof(UIElement), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnThumbnailChanged(args)));
 
         private void OnThumbnailChanged(DependencyPropertyChangedEventArgs args)
         {
-            if ( args.OldValue != null )
+            if (args.OldValue != null)
             {
-                var oldThumbnail = (UIElement) args.OldValue;
+                var oldThumbnail = (UIElement)args.OldValue;
 
-                this.grid.Children.Remove( oldThumbnail );
+                this.grid.Children.Remove(oldThumbnail);
             }
 
-            if ( args.NewValue != null )
+            if (args.NewValue != null)
             {
-                var newThumbnail = (UIElement) args.NewValue;
+                var newThumbnail = (UIElement)args.NewValue;
 
-                System.Windows.Controls.Grid.SetColumn( newThumbnail, 0 );
-                System.Windows.Controls.Grid.SetRow( newThumbnail, 0 );
+                System.Windows.Controls.Grid.SetColumn(newThumbnail, 0);
+                System.Windows.Controls.Grid.SetRow(newThumbnail, 0);
 
-                this.grid.Children.Add( newThumbnail );
-            }            
+                this.grid.Children.Add(newThumbnail);
+            }
         }
 
         #endregion
@@ -50,14 +54,14 @@ namespace View.Controls
 
         public DataTemplate SquareTemplate
         {
-            get { return (DataTemplate) GetValue( SquareTemplateProperty ); }
-            set { SetValue( SquareTemplateProperty, value ); }
+            get { return (DataTemplate)GetValue(SquareTemplateProperty); }
+            set { SetValue(SquareTemplateProperty, value); }
         }
 
         public static readonly DependencyProperty SquareTemplateProperty =
-            DependencyProperty.Register( "SquareTemplate", typeof( DataTemplate ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ( (PiCrossControl) obj ).OnSquareTemplateChanged( args ) ) );
+            DependencyProperty.Register("SquareTemplate", typeof(DataTemplate), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnSquareTemplateChanged(args)));
 
-        private void OnSquareTemplateChanged( DependencyPropertyChangedEventArgs args )
+        private void OnSquareTemplateChanged(DependencyPropertyChangedEventArgs args)
         {
             ClearChildren();
             CreateChildren();
@@ -69,14 +73,14 @@ namespace View.Controls
 
         public DataTemplate ColumnConstraintsTemplate
         {
-            get { return (DataTemplate) GetValue( ColumnConstraintsTemplateProperty ); }
-            set { SetValue( ColumnConstraintsTemplateProperty, value ); }
+            get { return (DataTemplate)GetValue(ColumnConstraintsTemplateProperty); }
+            set { SetValue(ColumnConstraintsTemplateProperty, value); }
         }
 
         public static readonly DependencyProperty ColumnConstraintsTemplateProperty =
-            DependencyProperty.Register( "ColumnConstraintsTemplate", typeof( DataTemplate ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ( (PiCrossControl) obj ).OnColumnConstraintsTemplateChanged( args ) ) );
+            DependencyProperty.Register("ColumnConstraintsTemplate", typeof(DataTemplate), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnColumnConstraintsTemplateChanged(args)));
 
-        private void OnColumnConstraintsTemplateChanged( DependencyPropertyChangedEventArgs args )
+        private void OnColumnConstraintsTemplateChanged(DependencyPropertyChangedEventArgs args)
         {
             RecreateChildren();
         }
@@ -87,14 +91,14 @@ namespace View.Controls
 
         public DataTemplate RowConstraintsTemplate
         {
-            get { return (DataTemplate) GetValue( RowConstraintsTemplateProperty ); }
-            set { SetValue( RowConstraintsTemplateProperty, value ); }
+            get { return (DataTemplate)GetValue(RowConstraintsTemplateProperty); }
+            set { SetValue(RowConstraintsTemplateProperty, value); }
         }
 
         public static readonly DependencyProperty RowConstraintsTemplateProperty =
-            DependencyProperty.Register( "RowConstraintsTemplate", typeof( DataTemplate ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ( (PiCrossControl) obj ).OnRowConstraintsTemplateChanged( args ) ) );
+            DependencyProperty.Register("RowConstraintsTemplate", typeof(DataTemplate), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnRowConstraintsTemplateChanged(args)));
 
-        private void OnRowConstraintsTemplateChanged( DependencyPropertyChangedEventArgs args )
+        private void OnRowConstraintsTemplateChanged(DependencyPropertyChangedEventArgs args)
         {
             RecreateChildren();
         }
@@ -105,32 +109,48 @@ namespace View.Controls
 
         public IGrid<object> Grid
         {
-            get { return (IGrid<object>) GetValue( GridProperty ); }
-            set { SetValue( GridProperty, value ); }
+            get { return (IGrid<object>)GetValue(GridProperty); }
+            set { SetValue(GridProperty, value); }
         }
 
         public static readonly DependencyProperty GridProperty =
-            DependencyProperty.Register( "Grid", typeof( IGrid<object> ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ((PiCrossControl) obj).OnDataChanged( args ) ) );
+            DependencyProperty.Register("Grid", typeof(IGrid<object>), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
 
         public ISequence<object> ColumnConstraints
         {
-            get { return (ISequence<object>) GetValue( ColumnConstraintsProperty ); }
-            set { SetValue( ColumnConstraintsProperty, value ); }
+            get { return (ISequence<object>)GetValue(ColumnConstraintsProperty); }
+            set { SetValue(ColumnConstraintsProperty, value); }
         }
 
         public static readonly DependencyProperty ColumnConstraintsProperty =
-            DependencyProperty.Register( "ColumnConstraints", typeof( ISequence<object> ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ((PiCrossControl) obj).OnDataChanged( args ) ) );
+            DependencyProperty.Register("ColumnConstraints", typeof(ISequence<object>), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
 
         public ISequence<object> RowConstraints
         {
-            get { return (ISequence<object>) GetValue( RowConstraintsProperty ); }
-            set { SetValue( RowConstraintsProperty, value ); }
+            get { return (ISequence<object>)GetValue(RowConstraintsProperty); }
+            set { SetValue(RowConstraintsProperty, value); }
         }
 
         public static readonly DependencyProperty RowConstraintsProperty =
-            DependencyProperty.Register( "RowConstraints", typeof( ISequence<object> ), typeof( PiCrossControl ), new PropertyMetadata( null, ( obj, args ) => ((PiCrossControl) obj).OnDataChanged( args ) ) );
+            DependencyProperty.Register("RowConstraints", typeof(ISequence<object>), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
 
-        private void OnDataChanged( DependencyPropertyChangedEventArgs args )
+        public ICommand FillSquareCommand
+        {
+            get { return (ICommand)GetValue(FillSquareCommandProperty); }
+            set { SetValue(FillSquareCommandProperty, value); }
+        }
+        public static readonly DependencyProperty FillSquareCommandProperty =
+            DependencyProperty.Register("FillSquareCommand", typeof(ICommand), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
+
+        public ICommand EmptySquareCommand
+        {
+            get { return (ICommand)GetValue(EmptySquareCommandProperty); }
+            set { SetValue(EmptySquareCommandProperty, value); }
+        }
+        public static readonly DependencyProperty EmptySquareCommandProperty =
+            DependencyProperty.Register("EmptySquareCommand", typeof(ICommand), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
+
+        private void OnDataChanged(DependencyPropertyChangedEventArgs args)
         {
             RecreateAll();
         }
@@ -204,41 +224,41 @@ namespace View.Controls
 
         private void CreateColumnDefinitions()
         {
-            Debug.Assert( this.grid.ColumnDefinitions.Count == 0 );
+            Debug.Assert(this.grid.ColumnDefinitions.Count == 0);
 
-            if ( this.Grid != null )
+            if (this.Grid != null)
             {
                 // Add column for row constraints
-                this.grid.ColumnDefinitions.Add( new ColumnDefinition() { Width = GridLength.Auto } );
+                this.grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
 
                 // Add column for each grid column
-                for ( var i = 0; i != this.Grid.Size.Width; ++i )
+                for (var i = 0; i != this.Grid.Size.Width; ++i)
                 {
-                    this.grid.ColumnDefinitions.Add( new ColumnDefinition() { Width = GridLength.Auto } );
+                    this.grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 }
             }
         }
 
         private void CreateRowDefinitions()
         {
-            Debug.Assert( this.grid.RowDefinitions.Count == 0 );
+            Debug.Assert(this.grid.RowDefinitions.Count == 0);
 
-            if ( this.Grid != null )
+            if (this.Grid != null)
             {
                 // Add row for column constraints
-                this.grid.RowDefinitions.Add( new RowDefinition() { Height = GridLength.Auto } );
+                this.grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
                 // Add row for each grid row
-                for ( var i = 0; i != this.Grid.Size.Height; ++i )
+                for (var i = 0; i != this.Grid.Size.Height; ++i)
                 {
-                    this.grid.RowDefinitions.Add( new RowDefinition() { Height = GridLength.Auto } );
+                    this.grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 }
             }
         }
 
         private void CreateChildren()
         {
-            Debug.Assert( this.grid.Children.Count == 0 );
+            Debug.Assert(this.grid.Children.Count == 0);
 
             AddThumbnailChild();
             CreateSquareControls();
@@ -247,32 +267,44 @@ namespace View.Controls
 
         private void AddThumbnailChild()
         {
-            if ( Thumbnail != null )
+            if (Thumbnail != null)
             {
-                Debug.Assert( !this.grid.Children.Contains( Thumbnail ) );
+                Debug.Assert(!this.grid.Children.Contains(Thumbnail));
 
-                this.grid.Children.Add( this.Thumbnail );
+                this.grid.Children.Add(this.Thumbnail);
             }
         }
 
         private void CreateSquareControls()
         {
-            if ( this.Grid != null && SquareTemplate != null )
+            if (this.Grid != null && SquareTemplate != null)
             {
-                foreach ( var position in Grid.AllPositions )
+                foreach (var position in Grid.AllPositions)
                 {
                     var gridCol = position.X + 1;
                     var gridRow = position.Y + 1;
                     var squareData = Grid[position];
-                    var squareControl = (FrameworkElement) SquareTemplate.LoadContent();
+                    var squareControl = (FrameworkElement)SquareTemplate.LoadContent();
 
                     squareControl.DataContext = squareData;
-                    UIGrid.SetColumn( squareControl, gridCol );
-                    UIGrid.SetRow( squareControl, gridRow );
+                    squareControl.MouseDown += new MouseButtonEventHandler(SquareClick);
 
-                    this.grid.Children.Add( squareControl );
+                    UIGrid.SetColumn(squareControl, gridCol);
+                    UIGrid.SetRow(squareControl, gridRow);
+
+                    this.grid.Children.Add(squareControl);
                 }
             }
+        }
+        private void SquareClick(object sender, MouseButtonEventArgs e)
+        {
+            var squareControl = (FrameworkElement)sender;
+            if (e.LeftButton == MouseButtonState.Pressed
+                && this.FillSquareCommand.CanExecute(squareControl.DataContext))
+                this.FillSquareCommand.Execute(squareControl.DataContext);
+            if (e.RightButton == MouseButtonState.Pressed
+                && this.EmptySquareCommand.CanExecute(squareControl.DataContext))
+                this.EmptySquareCommand.Execute(squareControl.DataContext);
         }
 
         private void CreateConstraintControls()
@@ -283,42 +315,61 @@ namespace View.Controls
 
         private void CreateColumnConstraintControls()
         {
-            if ( this.ColumnConstraints != null && ColumnConstraintsTemplate != null )
+            if (this.ColumnConstraints != null && ColumnConstraintsTemplate != null)
             {
-                foreach ( var index in ColumnConstraints.Indices )
+                foreach (var index in ColumnConstraints.Indices)
                 {
                     var columnIndex = index + 1;
                     var columnConstraintData = ColumnConstraints[index];
-                    var constraintsControl = (FrameworkElement) ColumnConstraintsTemplate.LoadContent();
+                    var constraintsControl = (FrameworkElement)ColumnConstraintsTemplate.LoadContent();
 
                     constraintsControl.DataContext = columnConstraintData;
-                    UIGrid.SetRow( constraintsControl, 0 );
-                    UIGrid.SetColumn( constraintsControl, columnIndex );
+                    UIGrid.SetRow(constraintsControl, 0);
+                    UIGrid.SetColumn(constraintsControl, columnIndex);
 
-                    this.grid.Children.Add( constraintsControl );
+                    this.grid.Children.Add(constraintsControl);
                 }
             }
         }
 
         private void CreateRowConstraintControls()
         {
-            if ( this.RowConstraints != null && RowConstraintsTemplate != null )
+            if (this.RowConstraints != null && RowConstraintsTemplate != null)
             {
-                foreach ( var index in RowConstraints.Indices )
+                foreach (var index in RowConstraints.Indices)
                 {
                     var rowIndex = index + 1;
                     var rowConstraintData = RowConstraints[index];
-                    var constraintsControl = (FrameworkElement) RowConstraintsTemplate.LoadContent();
+                    var constraintsControl = (FrameworkElement)RowConstraintsTemplate.LoadContent();
 
                     constraintsControl.DataContext = rowConstraintData;
-                    UIGrid.SetRow( constraintsControl, rowIndex );
-                    UIGrid.SetColumn( constraintsControl, 0 );
+                    UIGrid.SetRow(constraintsControl, rowIndex);
+                    UIGrid.SetColumn(constraintsControl, 0);
 
-                    this.grid.Children.Add( constraintsControl );
+                    this.grid.Children.Add(constraintsControl);
                 }
             }
         }
 
         #endregion
+    }
+
+    public class ConstraintMetConverter : IValueConverter
+    {
+        public object Satisfied { get; set; }
+        public object Unsatisfied { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value)
+                return this.Satisfied;
+            else
+                return this.Unsatisfied;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

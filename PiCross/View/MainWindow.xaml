@@ -5,40 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:View.Controls"
         xmlns:local="clr-namespace:View"
+        xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Title="PiCross" Height="660" Width="660">
 
-    <Grid>
-        <controls:PiCrossControl x:Name="picrossControl">
-            <controls:PiCrossControl.SquareTemplate>
-                <DataTemplate>
-                    <Rectangle Width="64" Height="64"  Stroke="Black">
-                        <Rectangle.Fill>
-                            <Binding Path="Contents.Value" >
-                                <Binding.Converter>
-                                    <local:SquareConverter Empty="White" Filled="Black" Unknown="Gray"/>
-                                </Binding.Converter>
-                            </Binding>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </DataTemplate>
-            </controls:PiCrossControl.SquareTemplate>
-            <controls:PiCrossControl.RowConstraintsTemplate>
-                <DataTemplate>
-                    <ItemsControl ItemsSource="{Binding}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Width="64" Height="64" Text="{Binding Path=Value }" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </DataTemplate>
-            </controls:PiCrossControl.RowConstraintsTemplate>
-        </controls:PiCrossControl>
-    </Grid>
+    <ContentControl Content="{Binding CurrentScreen.Value}"/>
+
 </Window>
