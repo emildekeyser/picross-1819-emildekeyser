@@ -75,6 +75,9 @@
     <Compile Include="Utility\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="picross.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="PiCross\uml-PlayablePuzzle.cd" />
     <None Include="PiCross\uml-Puzzle.cd" />
     <None Include="PiCross\uml-PuzzleEditor.cd" />

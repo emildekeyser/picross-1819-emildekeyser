@@ -21,10 +21,13 @@ namespace ViewModel
     /// </summary>
     public class WelcomeViewModel
     {
-        public WelcomeViewModel(ICommand startPuzzle)
+        public WelcomeViewModel(ICommand startPuzzle, IEnumerable<IPuzzleLibraryEntry> puzzleEntries)
         {
             this.StartPuzzle = startPuzzle;
+            this.PuzzleEntries = puzzleEntries;
         }
+
         public ICommand StartPuzzle { get; }
+        public IEnumerable<IPuzzleLibraryEntry> PuzzleEntries { get; private set; }
     }
 }

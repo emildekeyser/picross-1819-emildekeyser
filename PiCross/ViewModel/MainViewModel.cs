@@ -1,4 +1,5 @@
 ﻿using Cells;
+using PiCross;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,28 +12,29 @@ namespace ViewModel
 {
     public class MainViewModel
     {
-        private object _currentScreen;
-
         public MainViewModel()
         {
-            this.WelcomeScreen = new WelcomeViewModel( new StartPuzzleCommand(this));
-            this.PuzzleScreen = new PuzzleViewModel();
+            this._gameData = new PiCrossFacade().LoadGameData(".\\picross.zip");
+            this._welcomeScreen = new WelcomeViewModel( new StartPuzzleCommand(this), this._gameData.PuzzleLibrary.Entries);
+            this._puzzleScreen = new PuzzleViewModel(this._gameData.PuzzleLibrary.Entries.First().Puzzle);
             this.CurrentScreen = new ConcreteCell<object>();
-            this.CurrentScreen.Value = this.WelcomeScreen;
+            this.CurrentScreen.Value = this._welcomeScreen;
 
         }
 
-        private object WelcomeScreen { get; set; }
-        private object PuzzleScreen { get; set; }
+        private IGameData _gameData;
+        private WelcomeViewModel _welcomeScreen;
+        private PuzzleViewModel _puzzleScreen;
+
         public Cell<object> CurrentScreen { get; private set; }
 
         internal class StartPuzzleCommand : ICommand
         {
-            public StartPuzzleCommand(MainViewModel mvm)
+            public StartPuzzleCommand(MainViewModel _mainViewModel)
             {
-                this.mvm = mvm;
+                this._mainViewModel = _mainViewModel;
             }
-            private MainViewModel mvm;
+            private MainViewModel _mainViewModel;
 
             public event EventHandler CanExecuteChanged;
 
@@ -43,7 +45,12 @@ namespace ViewModel
 
             public void Execute(object parameter)
             {
-                this.mvm.CurrentScreen.Value = this.mvm.PuzzleScreen;
+                var selectedPuzzleEntry = (IPuzzleLibraryEntry)parameter;
+                if(selectedPuzzleEntry != null)
+                {
+                    this._mainViewModel._puzzleScreen.PuzzleToPlay = selectedPuzzleEntry.Puzzle;
+                }
+                this._mainViewModel.CurrentScreen.Value = this._mainViewModel._puzzleScreen;
             }
         }
     }

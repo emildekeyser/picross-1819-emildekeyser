@@ -11,6 +11,7 @@
     <UserControl.Resources>
         <view:SquareConverter x:Key="squareconverter" Empty="White" Filled="Black" Unknown="Gray" />
         <view:SolvedConverter x:Key="solvedconverter" Solved="You won!" Unsolved=""/>
+        <view:ConstraintMetConverter x:Key="constraintmetconverter" Satisfied="Gray" Unsatisfied="White"/>
     </UserControl.Resources>
 
     <StackPanel>
@@ -47,15 +48,8 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Width="64" Height="64" Text="{Binding Value}">
-                                        <TextBlock.Background>
-                                            <Binding Path="IsSatisfied.Value">
-                                                <Binding.Converter>
-                                                    <local:ConstraintMetConverter Satisfied="Gray" Unsatisfied="White"/>
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Background>
-                                    </TextBlock>
+                                    <TextBlock Width="64" Height="64" Text="{Binding Value}"
+                                               Background="{Binding IsSatisfied.Value, Converter={StaticResource constraintmetconverter}}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -72,15 +66,8 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Width="64" Height="64" Text="{Binding Value}">
-                                        <TextBlock.Background>
-                                            <Binding Path="IsSatisfied.Value">
-                                                <Binding.Converter>
-                                                    <local:ConstraintMetConverter Satisfied="Gray" Unsatisfied="White"/>
-                                                </Binding.Converter>
-                                            </Binding>
-                                        </TextBlock.Background>
-                                    </TextBlock>
+                                    <TextBlock Width="64" Height="64" Text="{Binding Value}"
+                                               Background="{Binding IsSatisfied.Value, Converter={StaticResource constraintmetconverter}}"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

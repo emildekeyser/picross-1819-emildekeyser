@@ -91,6 +91,11 @@ namespace PiCross
         {
             return this.UID;
         }
+
+        public override string ToString()
+        {
+            return "Puzzle: " + this.GetHashCode().ToString();
+        }
     }
 
     internal class PlayerDatabaseAdapter : IPlayerLibrary

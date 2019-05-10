@@ -353,23 +353,4 @@ namespace View.Controls
 
         #endregion
     }
-
-    public class ConstraintMetConverter : IValueConverter
-    {
-        public object Satisfied { get; set; }
-        public object Unsatisfied { get; set; }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((bool)value)
-                return this.Satisfied;
-            else
-                return this.Unsatisfied;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

@@ -9,6 +9,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <StackPanel>
-        <Button Content="Start random puzzle" Command="{Binding StartPuzzle}"></Button>
+        <ListBox Name="entries" ItemsSource="{Binding PuzzleEntries}"/>
+        <Button Content="Start random puzzle"
+                Command="{Binding StartPuzzle}"
+                CommandParameter="{Binding ElementName=entries, Path=SelectedItem}">
+        </Button>
     </StackPanel>
 </UserControl>
