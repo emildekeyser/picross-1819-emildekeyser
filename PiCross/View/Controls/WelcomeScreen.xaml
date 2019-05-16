@@ -5,14 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:View.Controls"
              xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" >
+             <!--d:DesignHeight="450" d:DesignWidth="800"-->
 
-    <StackPanel>
+    <Viewbox Stretch="Fill">
+        <StackPanel>
         <ListBox Name="entries" ItemsSource="{Binding PuzzleEntries}"/>
-        <Button Content="Start random puzzle"
+        <Button Content="Start Puzzle"
                 Command="{Binding StartPuzzle}"
                 CommandParameter="{Binding ElementName=entries, Path=SelectedItem}">
         </Button>
-    </StackPanel>
+        </StackPanel>
+    </Viewbox>
 </UserControl>

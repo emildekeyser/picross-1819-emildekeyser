@@ -134,22 +134,6 @@ namespace View.Controls
         public static readonly DependencyProperty RowConstraintsProperty =
             DependencyProperty.Register("RowConstraints", typeof(ISequence<object>), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
 
-        public ICommand FillSquareCommand
-        {
-            get { return (ICommand)GetValue(FillSquareCommandProperty); }
-            set { SetValue(FillSquareCommandProperty, value); }
-        }
-        public static readonly DependencyProperty FillSquareCommandProperty =
-            DependencyProperty.Register("FillSquareCommand", typeof(ICommand), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
-
-        public ICommand EmptySquareCommand
-        {
-            get { return (ICommand)GetValue(EmptySquareCommandProperty); }
-            set { SetValue(EmptySquareCommandProperty, value); }
-        }
-        public static readonly DependencyProperty EmptySquareCommandProperty =
-            DependencyProperty.Register("EmptySquareCommand", typeof(ICommand), typeof(PiCrossControl), new PropertyMetadata(null, (obj, args) => ((PiCrossControl)obj).OnDataChanged(args)));
-
         private void OnDataChanged(DependencyPropertyChangedEventArgs args)
         {
             RecreateAll();
@@ -287,7 +271,7 @@ namespace View.Controls
                     var squareControl = (FrameworkElement)SquareTemplate.LoadContent();
 
                     squareControl.DataContext = squareData;
-                    squareControl.MouseDown += new MouseButtonEventHandler(SquareClick);
+                    //squareControl.MouseDown += new MouseButtonEventHandler(SquareClick);
 
                     UIGrid.SetColumn(squareControl, gridCol);
                     UIGrid.SetRow(squareControl, gridRow);
@@ -296,16 +280,16 @@ namespace View.Controls
                 }
             }
         }
-        private void SquareClick(object sender, MouseButtonEventArgs e)
-        {
-            var squareControl = (FrameworkElement)sender;
-            if (e.LeftButton == MouseButtonState.Pressed
-                && this.FillSquareCommand.CanExecute(squareControl.DataContext))
-                this.FillSquareCommand.Execute(squareControl.DataContext);
-            if (e.RightButton == MouseButtonState.Pressed
-                && this.EmptySquareCommand.CanExecute(squareControl.DataContext))
-                this.EmptySquareCommand.Execute(squareControl.DataContext);
-        }
+        //private void SquareClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    var squareControl = (FrameworkElement)sender;
+        //    if (e.LeftButton == MouseButtonState.Pressed
+        //        && this.FillSquareCommand.CanExecute(squareControl.DataContext))
+        //        this.FillSquareCommand.Execute(squareControl.DataContext);
+        //    if (e.RightButton == MouseButtonState.Pressed
+        //        && this.EmptySquareCommand.CanExecute(squareControl.DataContext))
+        //        this.EmptySquareCommand.Execute(squareControl.DataContext);
+        //}
 
         private void CreateConstraintControls()
         {

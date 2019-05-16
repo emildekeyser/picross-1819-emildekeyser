@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DataStructures;
+using Cells;
 
 namespace ViewModel
 {
@@ -23,14 +24,15 @@ namespace ViewModel
     {
         public PuzzleViewModel(Puzzle puzzle)
         {
-            // var puzzle = Puzzle.FromRowStrings(
-            //    "xxxxx",
-            //    "x...x",
-            //    "x...x",
-            //    "x...x",
-            //    "xxxxx"
-            //);
-            this.PuzzleToPlay = puzzle;
+            var testpuzzle = Puzzle.FromRowStrings(
+               "xxxxx",
+               "x...x",
+               "x...x",
+               "x...x",
+               "xxxxx"
+           );
+            //this.PuzzleToPlay = puzzle;
+            this.PuzzleToPlay = testpuzzle;
         }
 
         public Puzzle PuzzleToPlay
@@ -40,24 +42,61 @@ namespace ViewModel
                 var facade = new PiCrossFacade();
                 var playablePuzzle = facade.CreatePlayablePuzzle(value);
 
-                this.Grid = playablePuzzle.Grid;
+                this.Grid = populateGrid(playablePuzzle.Grid);
                 this.RowConstraints = playablePuzzle.RowConstraints;
                 this.ColumnConstraints = playablePuzzle.ColumnConstraints;
-                this.FillSquareCommand = new TagSquareCommand(Square.FILLED);
-                this.EmptySquareCommand = new TagSquareCommand(Square.EMPTY);
                 this.IsSolved = playablePuzzle.IsSolved;
             }
         }
 
-        public IGrid<IPlayablePuzzleSquare> Grid { get; private set; }
+        private IGrid<ViewModelSquare> populateGrid(IGrid<IPlayablePuzzleSquare> grid)
+        {
+            var vmgrid = grid.Map((IPlayablePuzzleSquare domainPuzzle) => new ViewModelSquare(domainPuzzle));
+            return vmgrid.Copy();
+        }
+
+        public IGrid<ViewModelSquare> Grid { get; private set; }
         public ISequence<IPlayablePuzzleConstraints> RowConstraints { get; private set; }
         public ISequence<IPlayablePuzzleConstraints> ColumnConstraints { get; private set; }
-        public TagSquareCommand FillSquareCommand { get; private set; }
-        public TagSquareCommand EmptySquareCommand { get; private set; }
-        public Cells.Cell<bool> IsSolved { get; private set; }
-        //public object EmptySquare { get; private set; }
-        //public object FilledSquare { get; private set; }
-        //public object UnknownSquare { get; private set; }
+        public Cell<bool> IsSolved { get; private set; }
     }
 
+    public class ViewModelSquare
+    {
+        private readonly IPlayablePuzzleSquare _square;
+
+        public ViewModelSquare(IPlayablePuzzleSquare square)
+        {
+            this._square = square;
+            this.FillSquare = new EnabledCommand(() => square.Contents.Value = Square.FILLED);
+            this.EmptySquare = new EnabledCommand(() => square.Contents.Value = Square.EMPTY);
+        }
+
+        public Cell<Square> Contents { get { return _square.Contents; } }
+
+        public ICommand FillSquare { get; }
+        public ICommand EmptySquare { get;}
+    }
+
+    public class EnabledCommand : ICommand
+    {
+        private readonly Action action;
+
+        public EnabledCommand(Action action)
+        {
+            this.action = action;
+        }
+
+        public event EventHandler CanExecuteChanged { add { } remove { } }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            action();
+        }
+    }
 }

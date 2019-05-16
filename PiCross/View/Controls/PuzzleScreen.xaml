@@ -5,75 +5,80 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:View.Controls"
              xmlns:view="clr-namespace:View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" >
+    <!--d:DesignHeight="450" d:DesignWidth="800"-->
 
     <UserControl.Resources>
         <view:SquareConverter x:Key="squareconverter" Empty="White" Filled="Black" Unknown="Gray" />
         <view:SolvedConverter x:Key="solvedconverter" Solved="You won!" Unsolved=""/>
         <view:ConstraintMetConverter x:Key="constraintmetconverter" Satisfied="Gray" Unsatisfied="White"/>
     </UserControl.Resources>
-
-    <StackPanel>
+        <Viewbox Stretch="Fill">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <TextBlock FontSize="30" Background="Black" Foreground="White" Grid.Row="0" Text="{Binding IsSolved.Value, Converter={StaticResource solvedconverter}}"/>
+            <!--VerticalAlignment="Stretch">-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock VerticalAlignment="Center" Height="30" FontSize="30" Background="Black" Foreground="White" Grid.Row="0" Text="{Binding IsSolved.Value, Converter={StaticResource solvedconverter}}"/>
             <local:PiCrossControl x:Name="picrossControl"
-                                Grid.Row="1"
+                                 Grid.Row="1"
                                  Grid="{Binding Grid}"
                                  RowConstraints="{Binding RowConstraints}"
-                                 ColumnConstraints="{Binding ColumnConstraints}"
-                                 FillSquareCommand="{Binding FillSquareCommand}"
-                                 EmptySquareCommand="{Binding EmptySquareCommand}">
+                                 ColumnConstraints="{Binding ColumnConstraints}">
                 <local:PiCrossControl.SquareTemplate>
-                    <DataTemplate>
-                          <!--TODO: make this a button and remove clickhandler and *SquareCommand in picrosscontroll-->
-                        <Rectangle Width="64" Height="64"  Stroke="Black" Fill="{Binding Contents.Value, Converter={StaticResource squareconverter}}"/>
-                    </DataTemplate>
-                </local:PiCrossControl.SquareTemplate>
+                        <DataTemplate>
+                       
+                        <Rectangle Width="auto" Height="auto"  Stroke="Black" Fill="{Binding Contents.Value, Converter={StaticResource squareconverter}}">
+                            <Rectangle.InputBindings>
+                                <!--<MouseBinding MouseAction="LeftClick" Command="{Binding FillSquareCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding }"/>
+                                <MouseBinding MouseAction="RightClick" Command="{Binding EmptySquareCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"  CommandParameter="{Binding }"/>-->
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding FillSquare}" />
+                                <MouseBinding MouseAction="RightClick" Command="{Binding EmptySquare}"/>
+                            </Rectangle.InputBindings>
+                        </Rectangle>
+                        </DataTemplate>
+                    </local:PiCrossControl.SquareTemplate>
 
-                <local:PiCrossControl.RowConstraintsTemplate>
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding Values}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Width="64" Height="64" Text="{Binding Value}"
+                    <local:PiCrossControl.RowConstraintsTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Values}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="auto" Height="auto" Text="{Binding Value}"
                                                Background="{Binding IsSatisfied.Value, Converter={StaticResource constraintmetconverter}}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DataTemplate>
-                </local:PiCrossControl.RowConstraintsTemplate>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </local:PiCrossControl.RowConstraintsTemplate>
 
-                <local:PiCrossControl.ColumnConstraintsTemplate>
-                    <DataTemplate>
-                        <ItemsControl ItemsSource="{Binding Values}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Vertical"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Width="64" Height="64" Text="{Binding Value}"
+                    <local:PiCrossControl.ColumnConstraintsTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding Values}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="auto" Height="auto" Text="{Binding Value}"
                                                Background="{Binding IsSatisfied.Value, Converter={StaticResource constraintmetconverter}}"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </DataTemplate>
-                </local:PiCrossControl.ColumnConstraintsTemplate>
-            </local:PiCrossControl>
-        </Grid>
-    </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </local:PiCrossControl.ColumnConstraintsTemplate>
+                </local:PiCrossControl>
+            </Grid>
+        </Viewbox>
 </UserControl>

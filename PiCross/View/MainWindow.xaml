@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:View"
         xmlns:viewmodel="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="PiCross" Height="660" Width="660">
+        Title="PiCross" Height="660" Width="660" WindowState="Maximized">
 
     <ContentControl Content="{Binding CurrentScreen.Value}"/>
 
