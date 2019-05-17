@@ -31,8 +31,8 @@ namespace ViewModel
                "x...x",
                "xxxxx"
            );
-            //this.PuzzleToPlay = puzzle;
-            this.PuzzleToPlay = testpuzzle;
+            this.PuzzleToPlay = puzzle;
+            //this.PuzzleToPlay = testpuzzle;
         }
 
         public Puzzle PuzzleToPlay
